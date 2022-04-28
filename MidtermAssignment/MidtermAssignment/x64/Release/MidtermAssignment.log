@@ -1,0 +1,23 @@
+﻿  Ending.cpp
+  InGame.cpp
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\InGame.cpp(10,2): warning C4091: 'typedef ': 변수를 선언하지 않으면 'Missile' 왼쪽은 무시됩니다.
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\InGame.cpp(158,5): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\InGame.cpp(165,5): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\InGame.cpp(172,5): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\InGame.cpp(179,5): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\InGame.cpp(309,34): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\InGame.cpp(310,34): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Intro.cpp
+  main.cpp
+  Missile.cpp
+  Person.cpp
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\Person.cpp(15,13): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\MidtermAssignment\Person.cpp(16,13): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Tank.cpp
+  Treasure.cpp
+  코드를 생성하고 있습니다.
+  400 of 407 functions (98.3%) were compiled, the rest were copied from previous compilation.
+    30 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  코드를 생성했습니다.
+  MidtermAssignment.vcxproj -> C:\Users\brian\OneDrive\바탕 화면\권용민\가톨릭대학교\4학년 1학기\게임프로그래밍\MidtermAssignment\x64\Release\MidtermAssignment.exe

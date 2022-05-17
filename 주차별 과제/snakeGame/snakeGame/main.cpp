@@ -39,7 +39,6 @@ int main(int argc, char* argv[]) {
 
 		if (cur_time_ms - g_last_time_ms < 100)
 			continue;
-
 		game_phases[g_current_game_phase]->HandleEvents();
 		game_phases[g_current_game_phase]->Update();
 		game_phases[g_current_game_phase]->Render();

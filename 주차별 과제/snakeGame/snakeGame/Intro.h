@@ -18,8 +18,4 @@ private:
 	SDL_Texture* bg_texture;
 	SDL_Rect bg_source;
 	SDL_Rect bg_destination;
-
-	SDL_Texture* start_texture;
-	SDL_Rect start_source;
-	SDL_Rect start_destination;
 };

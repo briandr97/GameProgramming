@@ -23,8 +23,17 @@ InGame::InGame() {
 	item_exist = false;
 	printf("아이템 그림 선언\n");
 
+	font = TTF_OpenFont("../../Resources/paybooc Bold.ttf", 50);
+	blue = { 0,50,200,0 };
+	SDL_Surface *game_over_surface = TTF_RenderText_Blended(font, "GAME OVER", blue);
+	game_over_texture = SDL_CreateTextureFromSurface(g_renderer, game_over_surface);
+	game_over_text = { 0,0,game_over_surface->w ,game_over_surface->h };
+
+
 	direction = -1;
 	srand(time(NULL));
+	game_over = false;
+	game_over_click = false;
 }
 
 InGame::~InGame() {
@@ -43,32 +52,53 @@ void InGame::HandleEvents() {
 
 		case SDL_KEYDOWN:
 			printf("여기는 ingame의 keydown\n");
-			if (event.key.keysym.sym == SDLK_SPACE) {
-				g_current_game_phase = PHASE_ENDING;
-			}
-			else if (event.key.keysym.sym == SDLK_LEFT) {
-				direction = LEFT;
+			if (event.key.keysym.sym == SDLK_LEFT) {
+				if(direction!=RIGHT)
+					direction = LEFT;
 			}
 			else if (event.key.keysym.sym == SDLK_RIGHT) {
-				direction = RIGHT;
+				if (direction != LEFT)
+					direction = RIGHT;
 			}
 			else if (event.key.keysym.sym == SDLK_UP) {
-				direction = UP;
+				if (direction != DOWN)
+					direction = UP;
 			}
 			else if (event.key.keysym.sym == SDLK_DOWN) {
-				direction = DOWN;
+				if (direction != UP)
+					direction = DOWN;
 			}
 			break;
+
+		case SDL_MOUSEBUTTONDOWN:
+			if (event.button.button == SDL_BUTTON_LEFT) {
+				printf("왼쪽 마우스 눌림\n");
+				if (game_over) {
+					g_current_game_phase = PHASE_ENDING;
+					game_over_click = true;
+				}
+					
+			}
 		}
 	}
 }
 
 void InGame::Update() {
+	if (game_over)
+		return;
 
 	//item random drop
+	randomX = ((rand() % 900) / 10) * 10;
+	randomY = ((rand() % 500) / 10) * 10;
 	if (item_exist == false) {
-		randomX = ((rand() % 900) / 10) * 10;
-		randomY = ((rand() % 500) / 10) * 10;
+		for (auto iter = ++snake.begin(); iter != snake.end(); iter++) {
+			if ((*iter).x == randomX && (*iter).y == randomY) {
+				randomX = ((rand() % 900) / 10) * 10;
+				randomY = ((rand() % 500) / 10) * 10;
+			}
+			else
+				continue;
+		}
 		item_destination = { randomX, randomY, WIDTH, HEIGHT };
 		item_exist = true;
 	}
@@ -104,6 +134,24 @@ void InGame::Update() {
 		snake.push_front({ snake.front().x + tempX, snake.front().y + tempY, WIDTH, HEIGHT });
 		item_exist = false;
 	}
+
+	//snake position check
+		//1. out of window
+	if ((snake.front().x < 0) || (snake.front().x >= 900) || (snake.front().y < 0) || (snake.front().y >= 500)) {
+		game_over = true;
+		snake.front().x -= tempX;
+		snake.front().y -= tempY;
+	}
+		//2. crash with body
+	int headX = snake.front().x;
+	int headY = snake.front().y;
+	for (auto iter = ++snake.begin(); iter != snake.end(); iter++) {
+		if ((*iter).x == headX && (*iter).y == headY) {
+			game_over = true;
+			snake.front().x -= tempX;
+			snake.front().y -= tempY;
+		}
+	}
 }
 
 void InGame::Render() {
@@ -114,5 +162,24 @@ void InGame::Render() {
 		SDL_RenderCopy(g_renderer, snake_texture, &snake_source, &(*iter));
 	}
 	printf("반복문 끝\n");
+
+	game_over_destination = { bg_destination.w / 2 - game_over_text.w / 2, bg_destination.h / 2 - game_over_text.h / 2, game_over_text.w, game_over_text.h };
+	if(game_over)
+		SDL_RenderCopy(g_renderer, game_over_texture, &game_over_text, &game_over_destination);
+
+	if (game_over_click)
+		Reset();
+
 	SDL_RenderPresent(g_renderer);
+}
+
+void InGame::Reset() {
+	snake.clear();
+	snake.push_front({ 0,0,WIDTH,HEIGHT });
+	direction = STOP;
+	game_over = false;
+	game_over_click = false;
+	SDL_RenderCopy(g_renderer, bg_texture, &bg_source, &bg_destination);
+	SDL_RenderCopy(g_renderer, item_texture, &item_source, &item_destination);
+	SDL_RenderCopy(g_renderer, snake_texture, &snake_source, &(snake.front()));
 }

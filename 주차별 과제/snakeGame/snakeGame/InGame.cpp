@@ -24,16 +24,28 @@ InGame::InGame() {
 	printf("아이템 그림 선언\n");
 
 	font = TTF_OpenFont("../../Resources/paybooc Bold.ttf", 50);
+	font2 = TTF_OpenFont("../../Resources/paybooc Bold.ttf", 30);
 	blue = { 0,50,200,0 };
+	red = { 200, 50, 0, 0 };
+
 	SDL_Surface *game_over_surface = TTF_RenderText_Blended(font, "GAME OVER", blue);
 	game_over_texture = SDL_CreateTextureFromSurface(g_renderer, game_over_surface);
+	SDL_FreeSurface(game_over_surface);
 	game_over_text = { 0,0,game_over_surface->w ,game_over_surface->h };
-
+	game_over_destination = { bg_destination.w / 2 - game_over_text.w / 2, bg_destination.h / 2 - game_over_text.h / 2, game_over_text.w, game_over_text.h };
+	
+	SDL_Surface* max_surface = TTF_RenderUTF8_Blended(font, CW2A(L"최고기록입니다!", CP_UTF8), red);
+	max_texture = SDL_CreateTextureFromSurface(g_renderer, max_surface);
+	SDL_FreeSurface(max_surface);
+	max_text = { 0,0,max_surface->w ,max_surface->h };
+	max_destination = { bg_destination.w / 2 - max_text.w / 2, game_over_destination.y + game_over_destination.h, max_text.w, max_text.h };
 
 	direction = -1;
 	srand(time(NULL));
 	game_over = false;
 	game_over_click = false;
+	score = 0;
+	max = 0;
 }
 
 InGame::~InGame() {
@@ -132,6 +144,7 @@ void InGame::Update() {
 	//snake item check
 	if ((snake.front().x == item_destination.x) && (snake.front().y==item_destination.y)) {
 		snake.push_front({ snake.front().x + tempX, snake.front().y + tempY, WIDTH, HEIGHT });
+		score += 10;
 		item_exist = false;
 	}
 
@@ -163,9 +176,19 @@ void InGame::Render() {
 	}
 	printf("반복문 끝\n");
 
-	game_over_destination = { bg_destination.w / 2 - game_over_text.w / 2, bg_destination.h / 2 - game_over_text.h / 2, game_over_text.w, game_over_text.h };
-	if(game_over)
+	if (game_over) {
 		SDL_RenderCopy(g_renderer, game_over_texture, &game_over_text, &game_over_destination);
+		if (score >= max) {
+			max = score;
+			SDL_RenderCopy(g_renderer, max_texture, &max_text, &max_destination);
+		}
+	}
+
+	SDL_Surface* score_surface = TTF_RenderText_Blended(font2, to_string(score).c_str(), red);
+	score_texture = SDL_CreateTextureFromSurface(g_renderer, score_surface);
+	score_text = { 0,0,score_surface->w ,score_surface->h };
+	score_destination = { 20, 450, score_text.w, score_text.h };
+	SDL_RenderCopy(g_renderer, score_texture, &score_text, &score_destination);
 
 	if (game_over_click)
 		Reset();
@@ -179,6 +202,7 @@ void InGame::Reset() {
 	direction = STOP;
 	game_over = false;
 	game_over_click = false;
+	score = 0;
 	SDL_RenderCopy(g_renderer, bg_texture, &bg_source, &bg_destination);
 	SDL_RenderCopy(g_renderer, item_texture, &item_source, &item_destination);
 	SDL_RenderCopy(g_renderer, snake_texture, &snake_source, &(snake.front()));

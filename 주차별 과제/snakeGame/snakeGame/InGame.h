@@ -3,6 +3,7 @@
 #include <list>
 #include <stdlib.h>
 #include <time.h>
+#include <atlstr.h>
 
 extern SDL_Renderer* g_renderer;
 extern bool g_flag_running;
@@ -38,10 +39,23 @@ private:
 	
 	//font
 	TTF_Font* font;
+	TTF_Font* font2;
 	SDL_Color blue;
+	SDL_Color red;
+	//gameover text
 	SDL_Texture* game_over_texture;
 	SDL_Rect game_over_text;
 	SDL_Rect game_over_destination;
+	//score text
+	int score;
+	int max;
+	SDL_Texture* score_texture;
+	SDL_Rect score_text;
+	SDL_Rect score_destination;
+	//max text
+	SDL_Texture* max_texture;
+	SDL_Rect max_text;
+	SDL_Rect max_destination;
 
 	enum d {LEFT, RIGHT, UP, DOWN, STOP};
 	int direction;
